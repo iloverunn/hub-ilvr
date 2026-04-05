@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0A0A0A">
+<link rel="manifest" href="/manifest.json">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="iLoveRunn">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="apple-touch-icon" href="/logo180.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/logo120.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/logo152.png">
+<link rel="apple-touch-icon" sizes="167x167" href="/logo167.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/logo180.png">
+<meta name="description" content="La comunidad runner mas grande de Argentina.">
+<title>iLoveRunn Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#C9A84C;--gold2:#E8C97A;--red:#CC2200;--bk:#0A0A0A;--d1:#141414;--d2:#1A1A1A;--d3:#242424;--wh:#F5F5F0;--gr:#5a5a5a;--gr2:#999;--safe-top:env(safe-area-inset-top,0px);--safe-bot:env(safe-area-inset-bottom,0px);}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;background:var(--bk);color:var(--wh);font-family:'Montserrat',sans-serif;overflow:hidden;}
+.app{display:flex;flex-direction:column;height:100dvh;max-width:430px;margin:0 auto;position:relative;overflow:hidden;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spin{width:18px;height:18px;border:2px solid rgba(201,168,76,.3);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;display:inline-block;vertical-align:middle;margin-right:6px;}
+
+/* ONBOARD */
+.onboard{position:absolute;inset:0;z-index:200;background:var(--bk);display:flex;flex-direction:column;overflow-y:auto;}
+.ob-hero{padding:calc(36px + var(--safe-top)) 22px 26px;background:linear-gradient(160deg,#1c1200,#0a0a0a 65%);position:relative;overflow:hidden;flex-shrink:0;}
+.ob-hero::before{content:'';position:absolute;top:-60px;right:-60px;width:240px;height:240px;border-radius:50%;border:55px solid rgba(201,168,76,.05);pointer-events:none;}
+.ob-logo{height:30px;margin-bottom:24px;}
+.ob-tag{display:inline-flex;align-items:center;gap:5px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:50px;padding:3px 11px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}
+.ob-h1{font-family:'Bebas Neue',sans-serif;font-size:46px;line-height:.88;margin-bottom:8px;}
+.ob-h1 em{color:var(--gold);font-style:normal;display:block;}
+.ob-sub{font-size:11px;color:var(--gr2);line-height:1.6;max-width:260px;margin-bottom:20px;}
+.ob-bens{display:flex;flex-direction:column;gap:8px;}
+.ob-ben{display:flex;align-items:center;gap:10px;font-size:11px;color:#ccc;}
+.ob-ben em{color:var(--gold);font-style:normal;font-weight:700;}
+.ob-form{padding:22px 22px 32px;flex:1;}
+.ob-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;margin-bottom:4px;}
+.ob-sub2{font-size:10px;color:var(--gr2);margin-bottom:18px;line-height:1.5;}
+.btn-google{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;padding:13px;background:var(--wh);color:#1a1a1a;border:none;border-radius:11px;font-size:12px;font-weight:700;cursor:pointer;margin-bottom:12px;}
+.or-div{display:flex;align-items:center;gap:9px;margin:0 0 12px;}
+.or-line{flex:1;height:1px;background:#2a2a2a;}
+.or-txt{font-size:9px;color:var(--gr);letter-spacing:1px;text-transform:uppercase;}
+.email-input{width:100%;padding:13px 14px;background:var(--d3);border:1px solid #2a2a2a;border-radius:11px;color:var(--wh);font-family:'Montserrat',sans-serif;font-size:13px;outline:none;margin-bottom:10px;transition:border-color .2s;}
+.email-input:focus{border-color:var(--gold);}
+.email-input::placeholder{color:var(--gr);}
+.btn-magic{width:100%;padding:13px;background:transparent;border:1px solid var(--gold);border-radius:11px;color:var(--gold);font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:1.5px;cursor:pointer;}
+.btn-magic:disabled{opacity:.5;cursor:not-allowed;}
+.ob-note{font-size:8px;color:var(--gr);text-align:center;margin-top:12px;line-height:1.5;}
+.ob-sent{padding:40px 24px;text-align:center;display:none;flex-direction:column;align-items:center;}
+.ob-sent-ico{font-size:52px;margin-bottom:16px;}
+.ob-sent-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;margin-bottom:8px;}
+.ob-sent-txt{font-size:12px;color:var(--gr2);line-height:1.7;margin-bottom:24px;}
+.ob-sent-email{color:var(--gold);font-weight:700;}
+.btn-back{padding:10px 20px;background:transparent;border:1px solid var(--d3);border-radius:50px;color:var(--gr2);font-size:11px;font-weight:600;cursor:pointer;}
+
+/* HEADER */
+.hdr{flex-shrink:0;background:rgba(10,10,10,.97);backdrop-filter:blur(20px);border-bottom:1px solid #1e1e1e;padding:calc(10px + var(--safe-top)) 18px 10px;display:flex;align-items:center;justify-content:space-between;}
+.logo-img{height:30px;width:auto;object-fit:contain;}
+.hdr-r{display:flex;gap:8px;}
+.ibtn{width:34px;height:34px;border-radius:50%;border:1px solid #2a2a2a;background:var(--d2);display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;}
+
+/* SCROLL + PAGES */
+.scroll{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.scroll::-webkit-scrollbar{display:none;}
+.page{display:none;}
+.page.active{display:block;}
+
+/* BOTTOM NAV */
+.bnav{flex-shrink:0;background:rgba(10,10,10,.97);backdrop-filter:blur(24px);border-top:1px solid #1e1e1e;display:flex;justify-content:space-around;padding:8px 0 calc(10px + var(--safe-bot));}
+.nb{display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;padding:4px 10px;user-select:none;}
+.nb .ico{font-size:19px;}
+.nb .lbl{font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gr);}
+.nb.active .lbl{color:var(--gold);}
+
+/* HOME HERO */
+.hhero{padding:26px 18px 20px;background:linear-gradient(160deg,#1c1200,#0a0a0a 60%);position:relative;overflow:hidden;}
+.hhero::before{content:'';position:absolute;top:-60px;right:-60px;width:260px;height:260px;border-radius:50%;border:60px solid rgba(201,168,76,.05);pointer-events:none;}
+.htag{display:inline-flex;align-items:center;gap:5px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:50px;padding:3px 11px;font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.h1{font-family:'Bebas Neue',sans-serif;font-size:50px;line-height:.88;letter-spacing:1px;margin-bottom:6px;}
+.h1 em{color:var(--gold);font-style:normal;display:block;}
+.hsub{font-size:11px;color:var(--gr2);line-height:1.6;max-width:250px;margin-bottom:18px;}
+.hcta{display:inline-flex;align-items:center;gap:7px;background:var(--gold);color:var(--bk);padding:10px 20px;border-radius:50px;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1.5px;cursor:pointer;border:none;margin-bottom:20px;}
+.hstats{display:flex;}
+.hs{flex:1;text-align:center;padding:10px 4px;background:rgba(255,255,255,.03);border:1px solid #1e1e1e;}
+.hs:first-child{border-radius:9px 0 0 9px;}
+.hs:last-child{border-radius:0 9px 9px 0;}
+.hs-n{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--gold);line-height:1;}
+.hs-l{font-size:7px;color:var(--gr);letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+
+/* SECTIONS */
+.sec{padding:20px 18px 0;}
+.sechd{display:flex;justify-content:space-between;align-items:center;margin-bottom:13px;}
+.sect{font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:1px;}
+.secl{font-size:9px;color:var(--gold);letter-spacing:1px;text-transform:uppercase;cursor:pointer;}
+
+/* FEATURED */
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 18px;}
+.fc{background:var(--d2);border:1px solid var(--d3);border-radius:14px;overflow:hidden;cursor:pointer;}
+.fc:active{border-color:var(--gold);}
+.fimg{width:100%;height:105px;position:relative;overflow:hidden;background:var(--d3);display:flex;align-items:center;justify-content:center;font-size:32px;}
+.fimg img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.fbadge{position:absolute;top:7px;left:7px;padding:2px 8px;border-radius:50px;font-size:7px;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+.fbadge.av{background:var(--red);color:var(--wh);}
+.fbadge.ca{background:var(--gold);color:var(--bk);}
+.fbody{padding:10px 11px 12px;}
+.fn{font-family:'Bebas Neue',sans-serif;font-size:16px;line-height:1.05;margin-bottom:3px;}
+.fd{font-size:8px;color:var(--gr2);}
+.fp{display:inline-block;margin-top:5px;font-size:8px;font-weight:700;padding:2px 7px;border-radius:50px;border:1px solid rgba(204,34,0,.35);color:#ff7755;}
+
+/* CONTENT HIGHLIGHT */
+.chigh{margin:14px 18px 0;background:var(--d2);border:1px solid var(--d3);border-radius:14px;overflow:hidden;cursor:pointer;display:flex;height:82px;}
+.chimg{width:82px;flex-shrink:0;background:linear-gradient(135deg,#1a1400,#0f0f0f);display:flex;align-items:center;justify-content:center;font-size:28px;}
+.chbody{padding:12px 14px;flex:1;display:flex;flex-direction:column;justify-content:center;}
+.chtype{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:3px;}
+.chtitle{font-family:'Bebas Neue',sans-serif;font-size:15px;line-height:1.05;}
+.chsub{font-size:9px;color:var(--gr);margin-top:2px;}
+.divider{height:1px;background:linear-gradient(to right,transparent,#2a2a2a,transparent);margin:20px 18px 0;}
+
+/* PAGE HEADER */
+.phd{padding:18px 18px 0;}
+.phd h2{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;}
+.phd p{font-size:10px;color:var(--gr2);margin-top:2px;}
+
+/* SUBTABS */
+.stabs{display:flex;gap:8px;padding:13px 18px 0;overflow-x:auto;scrollbar-width:none;}
+.stabs::-webkit-scrollbar{display:none;}
+.stab{flex-shrink:0;padding:6px 14px;border-radius:50px;font-size:9px;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:1px solid var(--d3);color:var(--gr2);background:transparent;transition:all .2s;}
+.stab.active{background:var(--gold);color:var(--bk);border-color:var(--gold);}
+
+/* RACE CARDS */
+.rlist{padding:14px 18px 20px;display:flex;flex-direction:column;gap:12px;}
+.rc{background:var(--d2);border:1px solid var(--d3);border-radius:14px;overflow:hidden;cursor:pointer;}
+.rc:active{border-color:var(--gold);}
+.rimg{width:100%;height:130px;position:relative;overflow:hidden;background:var(--d3);display:flex;align-items:center;justify-content:center;font-size:42px;}
+.rimg img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.rdate{position:absolute;top:10px;left:10px;background:var(--gold);color:var(--bk);border-radius:8px;padding:5px 7px;text-align:center;min-width:40px;}
+.rdate .d{font-family:'Bebas Neue',sans-serif;font-size:20px;line-height:1;}
+.rdate .m{font-size:7px;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+.rbody{padding:12px 14px;}
+.rn{font-family:'Bebas Neue',sans-serif;font-size:20px;line-height:1.05;margin-bottom:5px;}
+.pills{display:flex;gap:6px;flex-wrap:wrap;}
+.pill{font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:2px 8px;border-radius:50px;border:1px solid var(--d3);color:var(--gr2);}
+.pill.g{border-color:rgba(201,168,76,.4);color:var(--gold2);}
+.pill.r{border-color:rgba(204,34,0,.35);color:#ff7755;}
+
+/* CONTENT LIST */
+.clist{padding:14px 18px 20px;display:flex;flex-direction:column;gap:12px;}
+.ccard{background:var(--d2);border:1px solid var(--d3);border-radius:14px;overflow:hidden;cursor:pointer;display:flex;height:92px;}
+.ccimg{width:92px;flex-shrink:0;background:linear-gradient(135deg,#1a1400,#0f0f0f);display:flex;align-items:center;justify-content:center;font-size:32px;}
+.ccbody{padding:13px 15px;flex:1;display:flex;flex-direction:column;justify-content:center;}
+.cctype{font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}
+.cctitle{font-family:'Bebas Neue',sans-serif;font-size:17px;line-height:1.05;margin-bottom:3px;}
+.ccsub{font-size:9px;color:var(--gr);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+
+/* PASS */
+.phero{margin:18px;background:linear-gradient(135deg,#1a1000,#0f0f0f);border:1px solid rgba(201,168,76,.22);border-radius:16px;padding:26px 20px;text-align:center;}
+.pico{font-size:44px;margin-bottom:12px;}
+.ptitle{font-family:'Bebas Neue',sans-serif;font-size:34px;letter-spacing:1px;color:var(--gold);margin-bottom:6px;}
+.psub{font-size:11px;color:var(--gr2);line-height:1.6;margin-bottom:18px;}
+.pbtn{display:inline-block;background:var(--gold);color:var(--bk);padding:11px 26px;border-radius:50px;font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:1.5px;cursor:pointer;border:none;}
+.pfeats{padding:0 18px;display:flex;flex-direction:column;gap:9px;}
+.pfeat{display:flex;align-items:center;gap:12px;background:var(--d2);border:1px solid var(--d3);border-radius:12px;padding:13px 15px;}
+.pfeat-i{font-size:20px;flex-shrink:0;}
+.pfeat-t strong{display:block;font-size:12px;font-weight:700;margin-bottom:1px;}
+.pfeat-t span{font-size:10px;color:var(--gr2);}
+
+/* PROFILE */
+.profile-card{margin:18px;background:var(--d2);border:1px solid var(--d3);border-radius:16px;padding:22px;text-align:center;}
+.avatar{width:68px;height:68px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#6a4a10);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--bk);margin:0 auto 12px;overflow:hidden;}
+.avatar img{width:100%;height:100%;object-fit:cover;}
+.profile-name{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:1px;margin-bottom:2px;}
+.profile-email{font-size:11px;color:var(--gr2);margin-bottom:16px;}
+.profile-stats{display:flex;border-top:1px solid var(--d3);padding-top:14px;}
+.ps{flex:1;text-align:center;border-left:1px solid var(--d3);}
+.ps:first-child{border-left:none;}
+.ps-n{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--gold);}
+.ps-l{font-size:8px;color:var(--gr);letter-spacing:1px;text-transform:uppercase;margin-top:2px;}
+.btn-logout{width:calc(100% - 36px);margin:0 18px;padding:12px;background:transparent;border:1px solid var(--d3);border-radius:11px;color:var(--gr2);font-size:12px;font-weight:600;cursor:pointer;}
+
+/* DETAIL */
+.dethd{padding:11px 18px;display:flex;align-items:center;gap:11px;border-bottom:1px solid #1e1e1e;position:sticky;top:0;background:rgba(10,10,10,.97);backdrop-filter:blur(20px);z-index:5;}
+.back{width:36px;height:36px;border-radius:50%;border:1px solid var(--d3);background:var(--d2);color:var(--gold);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.dett{font-family:'Bebas Neue',sans-serif;font-size:19px;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.dethero{width:100%;height:200px;position:relative;overflow:hidden;background:var(--d3);display:flex;align-items:center;justify-content:center;font-size:60px;}
+.dethero img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.detov{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,10,.93),transparent 55%);}
+.detoi{position:absolute;bottom:14px;left:18px;right:18px;}
+.detdate{font-size:9px;letter-spacing:3px;font-weight:700;color:var(--gold);text-transform:uppercase;margin-bottom:3px;}
+.detname{font-family:'Bebas Neue',sans-serif;font-size:32px;line-height:.92;margin-bottom:8px;}
+.detbody{padding:18px 18px 32px;}
+.excl{background:linear-gradient(135deg,#160f00,#0f0f0f);border:1px solid rgba(201,168,76,.22);border-radius:13px;padding:16px;margin-bottom:18px;}
+.exclt{display:flex;align-items:center;gap:5px;font-size:8px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.exclt::before{content:'★';font-size:10px;}
+.excltx{font-size:11px;color:#bbb;line-height:1.6;margin-bottom:10px;}
+.codebox{display:flex;align-items:center;gap:10px;background:rgba(201,168,76,.08);border:1px dashed rgba(201,168,76,.35);border-radius:9px;padding:10px 13px;cursor:pointer;}
+.codeval{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:var(--gold);}
+.codelbl{font-size:8px;color:var(--gr);}
+.detsec{margin-bottom:18px;}
+.detsect{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:1px;color:var(--gold);margin-bottom:8px;padding-bottom:7px;border-bottom:1px solid #1e1e1e;}
+.detsectx{font-size:12px;color:#aaa;line-height:1.7;}
+.btnbuy{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;background:var(--gold);color:var(--bk);border:none;border-radius:11px;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;cursor:pointer;text-decoration:none;margin-bottom:8px;}
+.btnsec{display:flex;align-items:center;justify-content:center;width:100%;padding:12px;background:transparent;color:var(--gr2);border:1px solid var(--d3);border-radius:11px;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:600;cursor:pointer;}
+
+/* INSTALL MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(8px);z-index:500;display:none;align-items:flex-end;justify-content:center;}
+.modal-bg.open{display:flex;}
+.modal{background:var(--d1);border-radius:20px 20px 0 0;border-top:1px solid #2a2a2a;padding:20px 20px calc(20px + var(--safe-bot));width:100%;max-width:430px;}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:1px;text-align:center;margin-bottom:4px;}
+.modal-sub{font-size:11px;color:var(--gr2);text-align:center;margin-bottom:18px;}
+.modal-steps{background:var(--d2);border-radius:13px;padding:16px;margin-bottom:16px;}
+.mstep{display:flex;align-items:center;gap:12px;margin-bottom:12px;font-size:12px;color:#ccc;}
+.mstep:last-child{margin-bottom:0;}
+.mstep em{color:var(--gold);font-style:normal;font-weight:700;}
+.modal-close{width:100%;padding:13px;background:var(--gold);color:var(--bk);border:none;border-radius:11px;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1.5px;cursor:pointer;}
+
+/* TOAST */
+.toast{position:fixed;bottom:calc(80px + var(--safe-bot));left:50%;transform:translateX(-50%) translateY(16px);background:var(--gold);color:var(--bk);font-size:11px;font-weight:700;padding:9px 18px;border-radius:50px;opacity:0;transition:all .3s;z-index:999;white-space:nowrap;pointer-events:none;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ONBOARDING -->
+  <div class="onboard" id="onboard">
+    <div class="ob-hero">
+      <img class="ob-logo" src="https://framerusercontent.com/images/2j7JJvp9yLwbSCiuGWZgylg8v2E.png" alt="iLoveRunn" onerror="this.style.display='none'">
+      <div class="ob-tag">▸ Buenos Aires · Argentina</div>
+      <h1 class="ob-h1">Hub<em>iLoveRunn</em></h1>
+      <p class="ob-sub">La comunidad runner mas grande de Argentina. Registrate para acceder.</p>
+      <div class="ob-bens">
+        <div class="ob-ben"><span>🏃</span><span>Todos los <em>eventos</em> de la temporada</span></div>
+        <div class="ob-ben"><span>🏷️</span><span><em>Descuentos exclusivos</em> para miembros</span></div>
+        <div class="ob-ben"><span>🔔</span><span><em>Notificaciones</em> de nuevas carreras</span></div>
+        <div class="ob-ben"><span>▶️</span><span><em>Contenido</em> que no publicamos en redes</span></div>
+      </div>
+    </div>
+    <div class="ob-form" id="obForm">
+      <div class="ob-title">Ingresa para continuar</div>
+      <p class="ob-sub2">Necesitamos tu email para darte acceso y avisarte de nuevas carreras.</p>
+      <button class="btn-google" id="btnGoogle" onclick="loginGoogle()">
+        <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Continuar con Google
+      </button>
+      <div class="or-div"><div class="or-line"></div><div class="or-txt">o con email</div><div class="or-line"></div></div>
+      <input class="email-input" type="email" id="emailInput" placeholder="tu@email.com" autocomplete="email">
+      <button class="btn-magic" id="btnMagic" onclick="sendMagic()">ENTRAR CON EMAIL</button>
+      <p class="ob-note">Al registrarte aceptas los terminos de iLoveRunn. Tu info esta segura y nunca la compartimos.</p>
+    </div>
+    <div class="ob-sent" id="obSent">
+      <div class="ob-sent-ico">📬</div>
+      <div class="ob-sent-title">Revisa tu email</div>
+      <p class="ob-sent-txt">Te mandamos un link para entrar. Tocalo desde tu celular.<br><br><span class="ob-sent-email" id="sentEmail"></span></p>
+      <button class="btn-back" onclick="backToForm()">Usar otro email</button>
+    </div>
+  </div>
+
+  <!-- HEADER -->
+  <header class="hdr" id="appHdr" style="display:none">
+    <img class="logo-img" src="https://framerusercontent.com/images/2j7JJvp9yLwbSCiuGWZgylg8v2E.png" alt="iLoveRunn" onerror="this.style.display='none'">
+    <div class="hdr-r">
+      <div class="ibtn" id="installBtn" onclick="openInstall()" style="display:none">📲</div>
+      <div class="ibtn">🔔</div>
+    </div>
+  </header>
+
+  <div class="scroll" id="appScroll" style="display:none">
+
+    <!-- HOME -->
+    <div class="page active" id="p-home">
+      <div class="hhero">
+        <div class="htag">▸ Buenos Aires · Argentina</div>
+        <h1 class="h1">Hub<em>iLoveRunn</em></h1>
+        <p class="hsub">La comunidad runner mas grande de Argentina.</p>
+        <button class="hcta" onclick="nav('p-carreras')">VER CARRERAS →</button>
+        <div class="hstats">
+          <div class="hs"><div class="hs-n" id="statEvs">6</div><div class="hs-l">Eventos</div></div>
+          <div class="hs"><div class="hs-n">2K+</div><div class="hs-l">Runners</div></div>
+          <div class="hs"><div class="hs-n">2026</div><div class="hs-l">Temporada</div></div>
+          <div class="hs"><div class="hs-n">ARG</div><div class="hs-l">Pais</div></div>
+        </div>
+      </div>
+      <div class="sec">
+        <div class="sechd"><div class="sect">Carreras Destacadas</div><div class="secl" onclick="nav('p-carreras')">Ver todas</div></div>
+      </div>
+      <div class="fgrid">
+        <div class="fc" data-key="cut50">
+          <div class="fimg">🏔️<div class="fbadge av">Aventura</div></div>
+          <div class="fbody"><div class="fn">CUT 50</div><div class="fd">16 AGO 2026</div><div class="fp">$95.000</div></div>
+        </div>
+        <div class="fc" data-key="bsas">
+          <div class="fimg">🏙️<div class="fbadge ca">Calle</div></div>
+          <div class="fbody"><div class="fn">UE BSAS RUN</div><div class="fd">10 MAY 2026</div><div class="fp">$40.000</div></div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="sec">
+        <div class="sechd"><div class="sect">Contenido Exclusivo</div><div class="secl" onclick="nav('p-contenidos')">Ver todo</div></div>
+      </div>
+      <div class="chigh" onclick="nav('p-contenidos')">
+        <div class="chimg">📹</div>
+        <div class="chbody"><div class="chtype">Video · Exclusivo</div><div class="chtitle">Como entrenar para tu primer trail</div><div class="chsub">Tips que no encontras en redes</div></div>
+      </div>
+      <div style="height:20px;"></div>
+    </div>
+
+    <!-- CARRERAS -->
+    <div class="page" id="p-carreras">
+      <div class="phd"><h2>Carreras 2026</h2><p>Todos los eventos de la temporada</p></div>
+      <div class="stabs" id="stabs">
+        <div class="stab active" data-cat="todas">Todas</div>
+        <div class="stab" data-cat="calle">Calle</div>
+        <div class="stab" data-cat="aventura">Aventura</div>
+        <div class="stab" data-cat="trail">Trail</div>
+      </div>
+      <div class="rlist" id="raceList">
+        <div style="padding:30px;text-align:center;color:var(--gr);font-size:12px;">Cargando carreras...</div>
+      </div>
+    </div>
+
+    <!-- CONTENIDOS -->
+    <div class="page" id="p-contenidos">
+      <div class="phd"><h2>Contenido Exclusivo</h2><p>Solo para la comunidad iLoveRunn</p></div>
+      <div class="clist">
+        <div class="ccard"><div class="ccimg">📹</div><div class="ccbody"><div class="cctype">Video</div><div class="cctitle">Como entrenar para tu primer trail</div><div class="ccsub">Tips que no encontras en ningun lado</div></div></div>
+        <div class="ccard"><div class="ccimg">📝</div><div class="ccbody"><div class="cctype">Nota</div><div class="cctitle">La historia del CUT 50</div><div class="ccsub">La carrera mas exigente de Argentina</div></div></div>
+        <div class="ccard"><div class="ccimg">🎙️</div><div class="ccbody"><div class="cctype">Podcast</div><div class="cctitle">Nutricion para corredores de fondo</div><div class="ccsub">Con la nutricionista Cecilia Mora</div></div></div>
+        <div class="ccard"><div class="ccimg">📸</div><div class="ccbody"><div class="cctype">Fotos</div><div class="cctitle">Galeria Runerds 2025</div><div class="ccsub">Las mejores fotos de la noche mas divertida</div></div></div>
+        <div class="ccard"><div class="ccimg">🎬</div><div class="ccbody"><div class="cctype">Video</div><div class="cctitle">Detras de escena: EcoTrail</div><div class="ccsub">Asi se organiza una carrera de montana</div></div></div>
+      </div>
+    </div>
+
+    <!-- PASS -->
+    <div class="page" id="p-pass">
+      <div class="phero"><div class="pico">🎽</div><div class="ptitle">iLoveRunn Pass</div><p class="psub">Tu membresia runner. Descuentos exclusivos, check-in con QR y beneficios en cada evento.</p><button class="pbtn">QUIERO MI PASS</button></div>
+      <div class="sec" style="margin-bottom:13px;"><div class="sect">Beneficios</div></div>
+      <div class="pfeats">
+        <div class="pfeat"><div class="pfeat-i">🏷️</div><div class="pfeat-t"><strong>Descuentos exclusivos</strong><span>Hasta 30% off en inscripciones</span></div></div>
+        <div class="pfeat"><div class="pfeat-i">✅</div><div class="pfeat-t"><strong>Check-in con QR</strong><span>Sin cola en todos los eventos</span></div></div>
+        <div class="pfeat"><div class="pfeat-i">📲</div><div class="pfeat-t"><strong>Notificaciones priority</strong><span>Enterate primero de nuevas fechas</span></div></div>
+        <div class="pfeat"><div class="pfeat-i">▶️</div><div class="pfeat-t"><strong>Contenido exclusivo</strong><span>Videos y notas solo para miembros</span></div></div>
+        <div class="pfeat"><div class="pfeat-i">🎁</div><div class="pfeat-t"><strong>Kit de bienvenida</strong><span>Sorpresas durante la temporada</span></div></div>
+      </div>
+      <div style="height:20px;"></div>
+    </div>
+
+    <!-- PERFIL -->
+    <div class="page" id="p-perfil">
+      <div style="height:18px;"></div>
+      <div class="profile-card">
+        <div class="avatar" id="userAvatar">R</div>
+        <div class="profile-name" id="userName">Runner</div>
+        <div class="profile-email" id="userEmail">runner@email.com</div>
+        <div class="profile-stats">
+          <div class="ps"><div class="ps-n">0</div><div class="ps-l">Carreras</div></div>
+          <div class="ps"><div class="ps-n">—</div><div class="ps-l">Pass</div></div>
+          <div class="ps"><div class="ps-n">0</div><div class="ps-l">Puntos</div></div>
+        </div>
+      </div>
+      <div style="height:10px;"></div>
+      <div class="pfeats">
+        <div class="pfeat"><div class="pfeat-i">🏅</div><div class="pfeat-t"><strong>Historial de carreras</strong><span>Proximamente disponible</span></div></div>
+        <div class="pfeat"><div class="pfeat-i">🎽</div><div class="pfeat-t"><strong>Mi Pass digital</strong><span>Proximamente disponible</span></div></div>
+        <div class="pfeat"><div class="pfeat-i">🔔</div><div class="pfeat-t"><strong>Mis alertas</strong><span>Proximamente disponible</span></div></div>
+      </div>
+      <div style="height:12px;"></div>
+      <button class="btn-logout" onclick="logout()">Cerrar sesion</button>
+      <div style="height:20px;"></div>
+    </div>
+
+    <!-- DETAIL -->
+    <div class="page" id="p-detail">
+      <div class="dethd"><button class="back" id="backBtn">←</button><div class="dett" id="dTitle">Evento</div></div>
+      <div class="dethero" id="dHero">🏃<div class="detov"></div><div class="detoi"><div class="detdate" id="dDate"></div><div class="detname" id="dName"></div><div class="pills" id="dPills"></div></div></div>
+      <div class="detbody">
+        <div class="excl"><div class="exclt">Contenido Exclusivo · Solo App</div><div class="excltx" id="dExcl">Accede a tips exclusivos que no publicamos en redes.</div><div class="codebox" onclick="copyCode()"><div><div class="codelbl">Descuento exclusivo</div><div class="codeval" id="dCode">—</div></div><span style="margin-left:auto;font-size:16px;">📋</span></div></div>
+        <div class="detsec"><div class="detsect">Sobre el evento</div><div class="detsectx" id="dDesc">Informacion proximamente.</div></div>
+        <a class="btnbuy" id="dBuy" href="https://iloverunn.com" target="_blank">🎽 INSCRIBIRME AHORA</a>
+        <button class="btnsec" onclick="shareEv()">📤 Compartir con un amigo</button>
+      </div>
+    </div>
+
+  </div>
+
+  <nav class="bnav" id="appBnav" style="display:none">
+    <div class="nb active" data-p="p-home"><div class="ico">🏠</div><div class="lbl">Inicio</div></div>
+    <div class="nb" data-p="p-carreras"><div class="ico">🏃</div><div class="lbl">Carreras</div></div>
+    <div class="nb" data-p="p-contenidos"><div class="ico">▶️</div><div class="lbl">Contenidos</div></div>
+    <div class="nb" data-p="p-pass"><div class="ico">🎽</div><div class="lbl">Pass</div></div>
+    <div class="nb" data-p="p-perfil"><div class="ico">👤</div><div class="lbl">Perfil</div></div>
+  </nav>
+
+</div>
+
+<div class="modal-bg" id="installModal">
+  <div class="modal">
+    <div class="modal-title">Instala iLoveRunn</div>
+    <p class="modal-sub">Agregala a tu pantalla de inicio</p>
+    <div class="modal-steps">
+      <div class="mstep"><span>1️⃣</span><span>Toca el icono <em>Compartir ⬆️</em> en Safari</span></div>
+      <div class="mstep"><span>2️⃣</span><span>Busca <em>"Agregar a pantalla de inicio"</em></span></div>
+      <div class="mstep"><span>3️⃣</span><span>Toca <em>Agregar</em> — listo!</span></div>
+    </div>
+    <button class="modal-close" onclick="closeInstall()">ENTENDIDO</button>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getStorage, ref as storageRef, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+
+const FBCFG = {apiKey:"AIzaSyBVNkV-Du6pZoJqfv5kqI_iePS1ghpulbA",authDomain:"iloverunn-hub.firebaseapp.com",projectId:"iloverunn-hub",storageBucket:"iloverunn-hub.firebasestorage.app",messagingSenderId:"257455565982",appId:"1:257455565982:web:4bdfb723e87b113dcf1f8f"};
+const fbApp = initializeApp(FBCFG);
+const auth  = getAuth(fbApp);
+const db    = getFirestore(fbApp);
+const storage = getStorage(fbApp);
+const CSV = 'https://docs.google.com/spreadsheets/d/1986kmKPGp_JQcEdsLM3TBTGWTLWYfMQfnkmWZmIjrzw/export?format=csv&gid=0';
+
+let allEvents=[], currentEv=null, currentPage='p-home', lastNonDetailPage='p-home';
+// CSV apuntando a la hoja compartida por el usuario (gid=0).
+
+// ── FIREBASE AUTH ──
+async function saveUser(u) {
+  try { await setDoc(doc(db,'usuarios',u.uid),{nombre:u.displayName||'',email:u.email||'',foto:u.photoURL||'',ultimoAcceso:serverTimestamp(),proveedor:u.providerData[0]?.providerId||'email'},{merge:true}); } catch(e){}
+}
+
+onAuthStateChanged(auth, u => {
+  if(u){ saveUser(u); setProfile(u); enterApp(); }
+  else { showOnboard(); }
+});
+
+window.loginGoogle = async () => {
+  const btn=document.getElementById('btnGoogle');
+  btn.innerHTML='<span class="spin"></span> Conectando...'; btn.disabled=true;
+  try { await signInWithPopup(auth, new GoogleAuthProvider()); }
+  catch(e) { btn.innerHTML='Continuar con Google'; btn.disabled=false; toast('Error al conectar con Google'); }
+};
+
+window.sendMagic = async () => {
+  const email=document.getElementById('emailInput').value.trim();
+  if(!email||!email.includes('@')){ toast('Ingresa un email valido'); return; }
+  const btn=document.getElementById('btnMagic');
+  btn.textContent='ENVIANDO...'; btn.disabled=true;
+  try {
+    await sendSignInLinkToEmail(auth, email, {url:window.location.href, handleCodeInApp:true});
+    localStorage.setItem('emailForSignIn', email);
+    document.getElementById('sentEmail').textContent=email;
+    document.getElementById('obForm').style.display='none';
+    document.getElementById('obSent').style.display='flex';
+    toast('Link enviado a '+email);
+  } catch(e) { toast('Error: '+e.message); btn.textContent='ENTRAR CON EMAIL'; btn.disabled=false; }
+};
+
+if(isSignInWithEmailLink(auth, window.location.href)) {
+  let email=localStorage.getItem('emailForSignIn')||prompt('Confirma tu email:');
+  signInWithEmailLink(auth, email, window.location.href)
+    .then(()=>localStorage.removeItem('emailForSignIn'))
+    .catch(e=>toast('Error: '+e.message));
+}
+
+window.logout = async () => { await signOut(auth); nav('p-home'); toast('Sesion cerrada'); };
+
+window.backToForm = () => {
+  document.getElementById('obForm').style.display='block';
+  document.getElementById('obSent').style.display='none';
+  document.getElementById('btnMagic').textContent='ENTRAR CON EMAIL';
+  document.getElementById('btnMagic').disabled=false;
+};
+
+function setProfile(u) {
+  const name=u.displayName||u.email.split('@')[0];
+  document.getElementById('userName').textContent=name;
+  document.getElementById('userEmail').textContent=u.email;
+  const av=document.getElementById('userAvatar');
+  av.innerHTML=u.photoURL?`<img src="${u.photoURL}" alt="${name}">`:(name[0]||'R').toUpperCase();
+}
+
+function enterApp() {
+  document.getElementById('onboard').style.display='none';
+  document.getElementById('appHdr').style.display='flex';
+  document.getElementById('appScroll').style.display='block';
+  document.getElementById('appBnav').style.display='flex';
+  loadEvents();
+}
+
+function showOnboard() {
+  document.getElementById('onboard').style.display='flex';
+  document.getElementById('appHdr').style.display='none';
+  document.getElementById('appScroll').style.display='none';
+  document.getElementById('appBnav').style.display='none';
+}
+
+// ── CSV + IMAGENES ──
+function splitCSVLine(line) {
+  const vals=[]; let cur='', inQ=false;
+  for(let i=0;i<line.length;i++){
+    const c=line[i], n=line[i+1];
+    if(c==='"'){
+      if(inQ && n==='"'){ cur+='"'; i++; }
+      else { inQ=!inQ; }
+    } else if(c===',' && !inQ){
+      vals.push(cur.trim());
+      cur='';
+    } else {
+      cur+=c;
+    }
+  }
+  vals.push(cur.trim());
+  return vals;
+}
+
+function parseCSV(txt) {
+  const lines=txt.replace(/^\uFEFF/, '').replace(/\r/g,'').trim().split('\n').filter(Boolean);
+  if(!lines.length) return [];
+  const hdrs=splitCSVLine(lines[0]).map(h=>h.replace(/"/g,'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/\s+/g,'_'));
+  return lines.slice(1).map(line=>{
+    const vals=splitCSVLine(line);
+    const obj={};
+    hdrs.forEach((h,i)=>{obj[h]=(vals[i]||'').replace(/""/g,'"').replace(/^"|"$/g,'').trim();});
+    if(!obj.imagen_url && obj.imagen) obj.imagen_url=obj.imagen;
+    if(!obj.imagen_url && obj.foto) obj.imagen_url=obj.foto;
+    return obj;
+  }).filter(ev=>ev.nombre&&ev.nombre.toLowerCase()!=='nombre');
+}
+
+function extractImageFormulaUrl(value='') {
+  const match = value.match(/=IMAGE\((?:"|')([^"']+)(?:"|')/i);
+  return match ? match[1].trim() : value;
+}
+
+function driveToDirect(url='') {
+  const patterns = [
+    /drive\.google\.com\/file\/d\/([^/]+)/i,
+    /[?&]id=([^&]+)/i
+  ];
+  for(const re of patterns){
+    const m=url.match(re);
+    if(m?.[1]) return `https://drive.google.com/uc?export=view&id=${m[1]}`;
+  }
+  return url;
+}
+
+async function resolveImageUrl(raw='') {
+  let value = extractImageFormulaUrl(String(raw || '').trim());
+  if(!value) return '';
+  if(value.startsWith('data:image/')) return value;
+  if(/^https?:\/\//i.test(value)) return driveToDirect(value);
+  if(value.startsWith('gs://')) {
+    try { return await getDownloadURL(storageRef(storage, value)); }
+    catch(e) { console.warn('No pude resolver gs://', value, e); return ''; }
+  }
+  const clean = value.replace(/^\/+/, '');
+  if(/\.(png|jpe?g|webp|gif|avif)$/i.test(clean) || clean.includes('/')){
+    try { return await getDownloadURL(storageRef(storage, clean)); }
+    catch(e) { console.warn('No pude resolver path de Storage', clean, e); }
+  }
+  return '';
+}
+
+async function hydrateEventsImages(events=[]) {
+  return await Promise.all(events.map(async ev => ({
+    ...ev,
+    imagen_url: await resolveImageUrl(ev.imagen_url || ev.imagen || ev.foto || '')
+  })));
+}
+
+function fmtDate(s) {
+  if(!s) return {d:'?',m:'???',full:'Fecha a confirmar'};
+  const p=s.split('/');
+  const MS=['ENE','FEB','MAR','ABR','MAY','JUN','JUL','AGO','SEP','OCT','NOV','DIC'];
+  const ML=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  const d=parseInt(p[0]),mi=parseInt(p[1])-1;
+  return {d,m:MS[mi]||'',full:`${d} de ${ML[mi]||''} ${p[2]||'2026'}`};
+}
+
+function mkPills(ev) {
+  return [ev.distancia?`<span class="pill g">${ev.distancia}</span>`:'',ev.tipo?`<span class="pill">${ev.tipo}</span>`:'',ev.precio?`<span class="pill r">$${Number(ev.precio).toLocaleString('es-AR')}</span>`:''].join('');
+}
+
+function renderRaces(evs) {
+  const list=document.getElementById('raceList');
+  if(!evs.length){list.innerHTML='<div style="padding:30px;text-align:center;color:var(--gr);font-size:12px;">Sin eventos en esta categoria.</div>';return;}
+  list.innerHTML=evs.map((ev,idx)=>{
+    const id = String(ev.id || ev.nombre || idx).replace(/"/g,'&quot;');
+    const {d,m}=fmtDate(ev.fecha);
+    const imgUrl=(ev.imagen_url||'').trim();
+    const hasImg=imgUrl.startsWith('http');
+    return `<div class="rc" data-event-id="${id}">
+      <div class="rimg">${hasImg?`<img src="${imgUrl}" alt="${ev.nombre}" loading="lazy" onerror="this.outerHTML=''; this.parentElement.insertAdjacentHTML('afterbegin','<span style=\"font-size:40px\">🏃</span>')">`:'<span style="font-size:40px">🏃</span>'}
+        <div class="rdate"><div class="d">${d}</div><div class="m">${m}</div></div>
+      </div>
+      <div class="rbody"><div class="rn">${ev.nombre}</div><div class="pills">${mkPills(ev)}</div></div>
+    </div>`;
+  }).join('');
+}
+
+window.openDet = (idxOrKey) => {
+  let ev;
+  if(typeof idxOrKey==='number'){ ev=allEvents[idxOrKey]; }
+  else {
+    ev = allEvents.find(x => String(x.id||x.nombre) === String(idxOrKey));
+    const fb={
+      cut50:{nombre:'CUT 50',fecha:'16/08/2026',distancia:'50K',tipo:'Aventura',precio:'95000',descripcion:'La carrera mas exigente de Argentina. 50 kilometros de montana pura.',codigo_descuento:'CUT50APP',link_compra:'https://iloverunn.com',imagen_url:''},
+      bsas:{nombre:'UE BSAS RUN',fecha:'10/05/2026',distancia:'21K',tipo:'Calle',precio:'40000',descripcion:'La carrera solidaria de Buenos Aires. Corre por una causa.',codigo_descuento:'BSASAPP',link_compra:'https://bsas.run',imagen_url:''},
+    };
+    if(!ev) ev=fb[idxOrKey];
+  }
+  if(!ev) return;
+  currentEv=ev;
+  currentPage='p-detail';
+  lastNonDetailPage=document.querySelector('.page.active')?.id || lastNonDetailPage;
+  if(lastNonDetailPage==='p-detail') lastNonDetailPage='p-home';
+  const {full}=fmtDate(ev.fecha);
+  const imgSrc=(ev.imagen_url||'').trim();
+  const hasImg=imgSrc.startsWith('http');
+  document.getElementById('dTitle').textContent=ev.nombre;
+  document.getElementById('dDate').textContent=full.toUpperCase();
+  document.getElementById('dName').textContent=ev.nombre;
+  document.getElementById('dPills').innerHTML=mkPills(ev);
+  document.getElementById('dDesc').textContent=ev.descripcion||'Mas informacion proximamente.';
+  document.getElementById('dExcl').textContent=ev.notas_exclusivas||'Accede a tips exclusivos que no publicamos en redes. Solo para corredores de la app.';
+  document.getElementById('dCode').textContent=ev.codigo_descuento||'—';
+  document.getElementById('dBuy').href=(ev.link_compra&&ev.link_compra.startsWith('http'))?ev.link_compra:'https://iloverunn.com';
+  const imgUrl2=(ev.imagen_url||'').trim();
+  const hasImg2=imgUrl2.startsWith('http');
+  document.getElementById('dHero').innerHTML=`${hasImg2?`<img src="${imgUrl2}" alt="${ev.nombre}" onerror="this.style.display='none'">`:'<span style="font-size:60px">🏃</span>'}<div class="detov"></div><div class="detoi"><div class="detdate">${full.toUpperCase()}</div><div class="detname">${ev.nombre}</div><div class="pills">${mkPills(ev)}</div></div>`;
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p-detail').classList.add('active');
+  document.getElementById('appScroll').scrollTop=0;
+  document.getElementById('backBtn').onclick=()=>nav(lastNonDetailPage);
+};
+
+window.nav = (id) => {
+  if(id==='p-detail') return;
+  currentPage=id;
+  lastNonDetailPage=id;
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  document.getElementById('appScroll').scrollTop=0;
+  document.querySelectorAll('.nb').forEach(b=>b.classList.toggle('active',b.dataset.p===id));
+  if(id==='p-carreras') renderRaces(allEvents);
+};
+
+document.getElementById('appBnav').addEventListener('click',e=>{const b=e.target.closest('.nb');if(b)nav(b.dataset.p);});
+
+// Event delegation for race cards - works even after re-render
+document.getElementById('raceList').addEventListener('click',e=>{
+  const card=e.target.closest('.rc');
+  if(card && card.dataset.eventId) openDet(card.dataset.eventId);
+});
+
+// Event delegation for home featured cards
+document.querySelector('.fgrid').addEventListener('click',e=>{
+  const card=e.target.closest('.fc');
+  if(card&&card.dataset.key) openDet(card.dataset.key);
+});
+
+document.getElementById('stabs').addEventListener('click',e=>{
+  const tab=e.target.closest('.stab');if(!tab)return;
+  document.querySelectorAll('.stab').forEach(t=>t.classList.remove('active'));
+  tab.classList.add('active');
+  const cat=tab.dataset.cat;
+  if(cat==='todas'){renderRaces(allEvents);return;}
+  const f=allEvents.filter(ev=>(ev.tipo||'').toLowerCase().includes(cat)||(ev.nombre||'').toLowerCase().includes(cat));
+  renderRaces(f.length?f:allEvents);
+});
+
+window.copyCode = () => {
+  const code=document.getElementById('dCode').textContent;
+  if(code==='—') return;
+  navigator.clipboard&&navigator.clipboard.writeText(code);
+  toast('Codigo copiado: '+code);
+};
+
+window.shareEv = () => {
+  if(!currentEv) return;
+  const {full}=fmtDate(currentEv.fecha);
+  const text=`Corre con iLoveRunn! ${currentEv.nombre} - ${full}. hubilvr.netlify.app`;
+  navigator.share?navigator.share({title:'iLoveRunn Hub',text,url:'https://hubilvr.netlify.app'}):toast('Link: hubilvr.netlify.app');
+};
+
+function toast(msg) {
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2600);
+}
+
+// PWA
+const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
+const isSafari=/safari/i.test(navigator.userAgent)&&!/chrome|crios/i.test(navigator.userAgent);
+const isStandalone=window.navigator.standalone||window.matchMedia('(display-mode:standalone)').matches;
+let deferredPWA=null;
+window.openInstall=()=>{ if(deferredPWA){deferredPWA.prompt();deferredPWA.userChoice.then(()=>{deferredPWA=null;});}else{document.getElementById('installModal').classList.add('open');} };
+window.closeInstall=()=>document.getElementById('installModal').classList.remove('open');
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPWA=e;document.getElementById('installBtn').style.display='flex';});
+window.addEventListener('appinstalled',()=>{document.getElementById('installBtn').style.display='none';toast('App instalada!');});
+if(isIOS&&isSafari&&!isStandalone) document.getElementById('installBtn').style.display='flex';
+
+function renderFeaturedFromEvents() {
+  const featured = [
+    { key:'cut50', fallback:'🏔️' },
+    { key:'bsas', fallback:'🏙️' }
+  ];
+  featured.forEach(item => {
+    const card = document.querySelector(`.fc[data-key="${item.key}"] .fimg`);
+    const ev = allEvents.find(x => (x.slug||'').toLowerCase()===item.key || (x.codigo||'').toLowerCase()===item.key || (x.nombre||'').toLowerCase().includes(item.key==='cut50' ? 'cut 50' : 'bsas'));
+    if(card && ev?.imagen_url){
+      const badge = card.querySelector('.fbadge')?.outerHTML || '';
+      card.innerHTML = `<img src="${ev.imagen_url}" alt="${ev.nombre}" loading="lazy" onerror="this.remove()">${badge}`;
+    }
+  });
+}
+
+async function loadEvents() {
+  try {
+    const r=await fetch(CSV, { cache:'no-store' });
+    const txt=await r.text();
+    const parsed=parseCSV(txt);
+    allEvents=await hydrateEventsImages(parsed);
+    if(allEvents.length) document.getElementById('statEvs').textContent=allEvents.length;
+    renderFeaturedFromEvents();
+    if(document.getElementById('p-carreras').classList.contains('active')) renderRaces(allEvents);
+  } catch(e){ console.log('CSV:',e); toast('No pude cargar las carreras'); }
+}
+
+if('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('/sw.js'));
+</script>
+</body>
+</html>
